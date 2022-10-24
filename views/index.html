@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body>
+        {% include "header.html" %}
+        <h1 class="d-flex justify-content-center display-1">Carta de Restaurant</h1>
+        <table class="table overflow-scroll">
+            <thead>
+              <tr>
+                <th scope="col">Categoría</th>
+                <th scope="col">Plato</th>
+                <th scope="col">descripcion</th>
+                <th scope="col">Precio</th>
+              </tr>
+            </thead>
+            {% for p in data %}  
+            <tbody>
+              <tr>
+                <td>{{ p.categoria }}</td>
+                <td><a href="comidas/{{p.id}}"><strong>{{ p.plato }}</strong></a></td>
+                <td>{{ p.descripcion }}</td>
+                <td>{{ p.precio }}</td>
+              </tr>
+              <tr>
+            </tbody>
+            {% endfor %}
+          </table>
+        {% include "footer.html" %}
+    </div>
+</body>
+</html>

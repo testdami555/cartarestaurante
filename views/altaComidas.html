@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/altaComidas.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Home</title>
+    <style>
+        .contenedor {
+            margin: 0 auto;
+            width: 50%;
+        }
+
+        .resultado{
+            color:darkturquoise;
+        }
+
+        .id{
+            color: cornflowerblue;
+        }
+
+        .encontrado{
+            color:darkgreen;
+        }
+
+        .unknown{
+            color:crimson
+        }
+    </style>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div class="contenedor">
+        <form action="/altaComida" method="post">
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Agregar Código</label>
+                <input type="texto" name="id" class="form-control" placeholder="Ingrese una Código">
+                <label class="form-label font-weight-bold">Agregar Plato</label>
+                <input type="text" name="plato" class="form-control" placeholder="Ingrese una Plato">
+                <label class="form-label font-weight-bold">Agregar Descripción</label>
+                <input type="text" name="descripcion" class="form-control" placeholder="Ingrese Descripción">
+                <label class="form-label font-weight-bold">Agregar Categoría</label>
+                <select name="categoria" class="form-select">
+                    {% for categoria in categorias %}
+                    <option value="{{categoria.categoria}}">{{categoria.categoria}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <label class="form-label font-weight-bold">Agregar Precio</label>
+                <input input="number" name="precio" class="form-control" placeholder="Ingrese Precio">
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar</button>
+        </form>
+    </div>
+    {% include "footer.html" %}
+</body>
+
+</html>
