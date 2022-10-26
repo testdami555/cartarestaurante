@@ -16,7 +16,8 @@ app.use(express.urlencoded({ extended: false }));
 const MongoClient = require('mongodb').MongoClient;
 const MONGO_URL = process.env.MONGO_URL;
 
-app.get('/', (req, res) => {
+
+/* app.get('/', (req, res) => {
     MongoClient.connect(MONGO_URL, { useUnifiedTopology: true }, (err, db) => {
         const dbo = db.db(process.env.DATABASE);
         // ORDENAMOS POR PLATO (-1: ↑ a ↓) (1: ↓ a ↑)
@@ -25,7 +26,31 @@ app.get('/', (req, res) => {
             res.render('index.html', { data: id });
         })
     });
+}); */
+
+app.get('/', (req, res) => {
+    const { MongoClient } = require('mongodb');
+    const client = new MongoClient(MONGO_URL);    
+    const dbName = 'cartarestaurante';    
+    async function main() {
+      await client.connect();
+      const db = client.db(dbName);
+      const comidas = db.collection(process.env.COLECCION).find().sort({ "id": 1 }).toArray()
+      //const categorias = db.collection(process.env.COLECCIONCATS).find().toArray()
+      return comidas
+    }
+    
+    main()
+    .then((data)=>{
+            console.log(data)
+            res.render('index.html', { data: data });            
+        }
+    )
+    .catch(console.error)
+    .finally(() => client.close());
+
 });
+
 
 /* 
 app.get('/comidas/:id', (req, res)=>{
