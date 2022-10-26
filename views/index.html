@@ -21,7 +21,15 @@
                 <th scope="col">Precio</th>
               </tr>
             </thead>
-            {% for p in data %}  
+            <ul>
+            {% for cat in data.categorias %}  
+              <li>
+                <a href="/categoria/{{cat.categoria}}">{{cat.categoria}}</a>
+              </li>
+            {% endfor %}
+            </ul>
+
+            {% for p in data.platos %}  
             <tbody>
               <tr>
                 <td>{{ p.categoria }}</td>

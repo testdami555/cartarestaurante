@@ -28,7 +28,54 @@ const MONGO_URL = process.env.MONGO_URL;
     });
 }); */
 
+
 app.get('/', (req, res) => {
+    const { MongoClient } = require('mongodb');
+    const client = new MongoClient(MONGO_URL);    
+    const dbName = 'cartarestaurante';   
+     
+    async function findplatos() {
+      await client.connect();
+      const db = client.db(dbName);
+      const comidas = db.collection(process.env.COLECCION).find().sort({ "id": 1 }).toArray()
+      return comidas
+    }
+
+    async function findcategorias() {
+        await client.connect();
+        const db = client.db(dbName);
+        const categorias = db.collection(process.env.COLECCIONCATS).find().toArray()
+        return categorias
+      }
+      
+    const datos = {}
+    
+    findplatos()
+    .then((platos)=>{
+            //console.log(data)
+            datos.platos = platos          
+        }
+    ).then(
+        ()=>{
+            findcategorias().then(
+                (categorias)=>{
+                    //console.log(categorias)
+                    datos.categorias = categorias
+                    res.render('index.html', { data: datos })
+                }                
+            )
+            .catch(console.error)
+            .finally(() => client.close());              
+        }
+    )
+    .catch(console.error)
+    
+
+});
+
+
+
+app.get('/home', (req, res) => {
     const { MongoClient } = require('mongodb');
     const client = new MongoClient(MONGO_URL);    
     const dbName = 'cartarestaurante';    
@@ -42,7 +89,7 @@ app.get('/', (req, res) => {
     
     main()
     .then((data)=>{
-            console.log(data)
+            //console.log(data)
             res.render('index.html', { data: data });            
         }
     )
